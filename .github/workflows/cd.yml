@@ -1,0 +1,28 @@
+on:
+    push:
+        branches: [main]
+    
+
+jobs:
+    deploy:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Checkout Repository
+              uses: actions/checkout@v3
+            
+            - name: Set up SSH
+            - uses: webfactory/ssh-agent@v0.5.3
+              with: 
+                ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+            
+            - name: Deploy to Server
+              run: |
+                ssh -o StrictHostKeyChecking=no ubuntu@3.14.151.112 << 'EOF'
+                cd /var/www/myproject
+                git pull origin main
+                source vevn/bin/activate
+                pip install -r requirements.txt
+                sudo systemctl restart nginx
+                sudo systemctl restart fast_api_service
+                EOF
