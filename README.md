@@ -67,7 +67,7 @@ pip install -r requirements.txt
 ```
 
 ## Running the Application
-
+  
 1. Start the server:
 
 ```bash
