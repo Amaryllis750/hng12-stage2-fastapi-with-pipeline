@@ -12,12 +12,12 @@ jobs:
         uses: actions/checkout@v3
       
       - name: Setting up SSH
-        uses: actions/ssh-agent@v0.5.3
+        uses: webfactory/ssh-agent@v0.5.3
         with: 
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       
       - name: Deploy the server
-        runs: |
+        run: |
           ssh -o StringHostKeyChecking=no ubuntu@20.115.88.88 << EOF
           cd ~/myproject/hng12-stage2-fastapi-with-pipeline
           git pull origin main
