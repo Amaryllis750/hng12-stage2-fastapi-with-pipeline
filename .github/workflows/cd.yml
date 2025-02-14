@@ -10,22 +10,18 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
-
-      - name: Create Server SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "${{secrets.SSH_PRIVATE_KEY}}" > ~/.ssh/server_ssh
-          chmod 600 ~/.ssh/server_key
       
-      - name: Setting up SSH for GitHub
+      - name: Setting up SSH
         uses: webfactory/ssh-agent@v0.5.3
         with: 
-          ssh-private-key: ${{ secrets.GIT_SSH_KEY }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       
       - name: Deploy the server
         run: |
-          ssh -i ~/.ssh/server_ssh ubuntu@20.115.88.88 << EOF
+          ssh -o StrictHostKeyChecking=no ubuntu@20.115.88.88 << EOF
           cd ~/myproject/hng12-stage2-fastapi-with-pipeline
+          eval "$(ssh-agent -s)"
+          ssh-add /home/ubuntu/.ssh/github_ssh
           git pull origin main
           source venv/bin/activate
           pip install -r requirements.txt
