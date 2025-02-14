@@ -20,6 +20,8 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@20.115.88.88 << EOF
           cd ~/myproject/hng12-stage2-fastapi-with-pipeline
+          eval "$(ssh-agent -s)"
+          ssh-add /home/ubuntu/.ssh/github_ssh
           git pull origin main
           source venv/bin/activate
           pip install -r requirements.txt
