@@ -21,6 +21,7 @@ jobs:
       - name: Deploy the server
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@20.115.88.88 << EOF
+          echo "Connected to the server"
           cd ~/myproject/hng12-stage2-fastapi-with-pipeline
           ssh-keyscan github.com >> ~/.ssh/known_hosts
           git pull origin main
